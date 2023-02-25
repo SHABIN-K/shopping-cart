@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
     description:'The iPhone 14 has a 6.1-inch (15 cm) IPS LCD with a resolution is 1792 × 828 pixels (1.4 megapixels) at a pixel density of 326 PPI with a maximum',
     imgURL:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSL-LteDa-EtlptRoNCByPz2lDDl_x3dyuXw&usqp=CAU'
   }]
-  res.render('index', { products });
+  res.render('index', { products, admin:false });
 });
 
 module.exports = router;
