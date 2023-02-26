@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var productHelper = require('../helpers/product-helpers')
+
 /* GET Admin listing. */
 router.get('/', function(req, res, next) {
   let products = [{
@@ -34,7 +36,12 @@ router.get('/add-products', function(req,res){
 router.post('/add-products', function(req,res){
   console.log(req.body);
   console.log(req.files.image);
-  //res.render('admin/add-products', {admin :true})
+
+  productHelper.addProduct(req.body, (result)=>{
+    res.render('admin/add-products', {admin :true})
+    console.log('data added to database successfully')
+  })
+  
 });
 
 module.exports = router;
