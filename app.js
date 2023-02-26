@@ -35,8 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(fileUpload())
 db.connect((err)=>{
-  if(err) console.log("connection error");
-  else console.log('Database connected successfully');
+  if(!err) console.log("Database connected successfully");
+  else console.log(`Connection Error (shoopingcart): ${err}`);
 })
 
 app.use('/', userRouter);
