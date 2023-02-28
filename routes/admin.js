@@ -8,7 +8,7 @@ var productHelper = require('../helpers/product-helpers')
 
 router.get('/', function(req, res, next) {
   productHelper.getAllProducts().then((products) =>{
-    console.log(products)
+   // console.log(products)
     res.render('admin/view-products', {products,admin :true})
   })
 });
@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
 router.get('/add-products', function(req,res){
   res.render('admin/add-products', {admin :true})
 });
+
 
 
 router.post('/add-products', function(req,res){
