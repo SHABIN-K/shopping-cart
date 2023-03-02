@@ -8,6 +8,7 @@ var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
 var hbs = require('express-handlebars');
+var {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 
 var fileUpload = require('express-fileupload');
 var db=require('./Config/connection')
