@@ -13,11 +13,6 @@ router.get('/', function(req, res, next) {
    })
 });
 
-/* GET Login page. */
-router.get('/login', (req,res) => {
-  res.render('user/login')
-});
-
 /* GET signup page. */
 router.get('/signup', (req,res) => {
   res.render('user/signup')
@@ -29,5 +24,16 @@ router.post('/signup', (req,res) => {
     console.log(response)
   })
 });
+
+/* GET Login page. */
+router.get('/login', (req,res) => {
+  res.render('user/login')
+});
+
+router.post('/login', (req,res)=>{
+  userHelper.doLogin(req.body)
+  let pass = req.body;
+  console.log(pass);
+})
 
 module.exports = router;
