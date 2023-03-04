@@ -8,7 +8,7 @@ var userHelper = require('../helpers/user-helpers')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let user = req.session.user
-  console.log(user);
+ //console.log(user);
   productHelper.getAllProducts().then((products) =>{
      res.render('user/view-products', { products, user})
    })
@@ -22,12 +22,22 @@ router.get('/signup', (req,res) => {
     res.render('user/signup')
   }
 });
+
+
 router.post('/signup', (req,res) => {
   userHelper.doSignup(req.body).then((userData) => {
     console.log("User signed up successfully")
     userHelper.doLogin(userData).then((response) => {
-      console.log("User logged in successfully")
-      res.redirect('/')
+      if(response.status){
+        console.log(response.status);
+        req.session.loggedIn=true
+        req.session.user=response.user
+        console.log("User logged in successfully")
+        res.redirect('/')
+      }else{
+        console.log("User logged in failed");
+        res.redirect('/login')
+      }
     })
   }).catch((err) => {
     console.log("Error in signup: " + err);
