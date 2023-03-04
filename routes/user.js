@@ -16,15 +16,25 @@ router.get('/', function(req, res, next) {
 
 /* GET signup page. */
 router.get('/signup', (req,res) => {
-  res.render('user/signup')
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+    res.render('user/signup')
+  }
 });
-
 router.post('/signup', (req,res) => {
-  userHelper.doSignup(req.body).then((response)=>{
-    console.log(response)
+  userHelper.doSignup(req.body).then((userData) => {
+    console.log("User signed up successfully")
+    userHelper.doLogin(userData).then((response) => {
+      console.log("User logged in successfully")
+      res.redirect('/')
+    })
+  }).catch((err) => {
+    console.log("Error in signup: " + err);
+    res.redirect('/signup')
   })
-});
-
+})
+ 
 /* GET Login page. */
 router.get('/login', (req,res) => {
   if(req.session.loggedIn){
