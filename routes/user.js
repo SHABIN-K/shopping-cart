@@ -32,8 +32,6 @@ router.get('/login', (req,res) => {
 
 router.post('/login', (req,res)=>{
   userHelper.doLogin(req.body)
-  let pass = req.body;
-  console.log(pass);
 })
 
 module.exports = router;
