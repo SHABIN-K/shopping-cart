@@ -1,6 +1,7 @@
 const { response } = require('express');
 var express = require('express');
 var router = express.Router();
+var fs = require('fs')
 
 var productHelper = require('../helpers/product-helpers')
 
@@ -43,6 +44,14 @@ router.get('/delete-products/:id', function(req,res){
   //console.log(proId.name);
   let proId = req.params.id
   productHelper.deleteProduct(proId).then((response)=>{
+    const path ='./public/product-images/'+proId+'.jpg'
+    try {
+      fs.unlinkSync(path)
+      console.log('deleted');
+    } catch (err) {
+      console.error(err);
+    }
+
     res.redirect('/admin/')
   })
 });
