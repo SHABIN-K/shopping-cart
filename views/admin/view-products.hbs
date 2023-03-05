@@ -23,7 +23,8 @@
                <td><img src="/product-images/{{this._id}}.jpg" alt="..img" width="50px" height="50px"></td>
                <td>
                   <a href="/admin/edit-products" class="btn btn-success ms-auto">Edit</a>
-                  <a href="" class="btn btn-success ms-auto">Delete</a>
+                  <a href="/admin/delete-products/{{this._id}}" class="btn btn-success ms-auto">Delete</a>
+                 <!-- <a href="/admin/delete-products?id={{this._id}}&name=product" class="btn btn-success ms-auto">Delete</a>-->
               </td>
              </tr>
              {{/each}}
