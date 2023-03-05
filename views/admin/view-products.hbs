@@ -3,7 +3,7 @@
         <div class="row mt-4">
             <div class="d-flex "><a href="/admin/add-products" class="btn btn-success ms-auto">Add Product</a></div>
         </div>
-        <table class="table mt-4">
+        <table class="table mt-4" id="product-table">
            <thead>
              <tr>
                <th scope="col">No</th>
@@ -16,14 +16,14 @@
            <tbody>
             {{#each products}}
              <tr>
-               <th scope="row">1</th>
-               <td>{{this.name}}</td>
+               <th scope="row">{{@key}}</th>
+               <td>{{name}}</td>
                <td>{{this.category}}</td>
                <td>{{this.description}}</td>
                <td><img src="/product-images/{{this._id}}.jpg" alt="..img" width="50px" height="50px"></td>
                <td>
                   <a href="/admin/edit-products" class="btn btn-success ms-auto">Edit</a>
-                  <a href="/admin/delete-products/{{this._id}}" class="btn btn-success ms-auto">Delete</a>
+                  <a href="/admin/delete-products/{{this._id}}" class="btn btn-success ms-auto" onclick="return confirm('Do you need to delete {{name}}?')">Delete</a>
                  <!-- <a href="/admin/delete-products?id={{this._id}}&name=product" class="btn btn-success ms-auto">Delete</a>-->
               </td>
              </tr>
@@ -32,3 +32,9 @@
         </table>
     </div>
 </section>
+
+<script>
+  $(document).ready( function () {
+    $('#product-table').DataTable();
+} );
+</script>
