@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var nocache = require('nocache')
 var hbs = require('express-handlebars');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
@@ -34,8 +35,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret:"key",cookie:{maxAge:600000}}))
-app.use(fileUpload())
+app.use(session({secret:"key",cookie:{maxAge:600000}}));
+app.use(nocache());
+app.use(fileUpload());
 
 db.connect((err)=>{
   if(!err) console.log("Database connected successfully");
