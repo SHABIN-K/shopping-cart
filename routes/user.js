@@ -8,41 +8,33 @@ var userHelper = require('../helpers/user-helpers')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let user = req.session.user
+  console.log("...home");
+  console.log(user);
   productHelper.getAllProducts().then((products) =>{
      res.render('user/view-products', { products, user})
    })
 });
 
 /* GET signup page. */
-router.get('/signup', (req,res) => {
-   if(req.session.loggedIn){
-     res.redirect('/')
-   }else{
-     res.render('user/signup')
-   }
-});
+router.get('/signup',(req, res) => {
+  if(req.session.LoggedIn){
+    res.redirect('/')
+  }else{
+    res.render('user/signup')
+  }
+  
+})
 
-
-router.post('/signup', (req, res) => {
-  userHelper.doSignup(req.body).then((userData) => {
-    console.log("User signed up successfully");
-    userHelper.doLogin(userData).then((response) => {
-      if (response.status) {
-        req.session.loggedIn = true;
-        req.session.user = response.user;
-        res.redirect('/');
-        console.log("User logged in successfully");
-      } else {
-        res.redirect('/login');
-        console.log("User login failed");
-      }
-    });
+router.post('/signup',(req, res)=>{
+  userHelper.doSignup(req.body).then((response)=>{
+      req.session.user = response
+      req.session.userLoggedIn = true
+      res.redirect('/')
   }).catch((err) => {
-    console.log("Error in signup: " + err);
-    res.redirect('/signup');
-  });
-});
-
+    console.log(err)
+    res.redirect('/signup')
+  })
+})
 
 
 /* GET Login page. */
