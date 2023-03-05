@@ -3,6 +3,7 @@ var router = express.Router();
 
 var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
+var cartHelper = require('../helpers/cart-helpers')
 
 const verifyLogin = (req,res,next) =>{
   if(req.session.userLoggedIn){
@@ -72,14 +73,17 @@ router.get('/logout', (req,res) => {
 });
 
 /* GET Cart page. */
-router.get('/cart',verifyLogin, (req,res) => {
+router.get('/cart',verifyLogin, async (req,res) => {
+  let userID =req.session.user._id
+  let products =await cartHelper.getCartProducts(userID)
+  console.log(products);
   res.render('user/cart')
 });
 
 router.get('/add-to-cart/:id',verifyLogin, (req,res) => {
   let proID = req.params.id
   let userID =req.session.user._id
-  userHelper.addToCart(proID,userID).then(() => {
+  cartHelper.addToCart(proID,userID).then(() => {
     res.redirect('/cart')
   })
 });

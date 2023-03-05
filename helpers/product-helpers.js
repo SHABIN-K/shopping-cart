@@ -2,7 +2,6 @@ var db= require('../Config/connection')
 var collection= require('../Config/collections')
 var objectId=require('mongodb').ObjectID
 
-
 module.exports={
     
     addProduct:(product, callback)=>{
