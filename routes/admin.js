@@ -51,7 +51,6 @@ router.get('/delete-products/:id', function(req,res){
     } catch (err) {
       console.error(err);
     }
-
     res.redirect('/admin/')
   })
 });
