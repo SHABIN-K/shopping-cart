@@ -1,7 +1,5 @@
 var db= require('../Config/connection')
 var collection= require('../Config/collections')
-const { resolve } = require('promise')
-const { response } = require('express')
 var objectId=require('mongodb').ObjectID
 
 

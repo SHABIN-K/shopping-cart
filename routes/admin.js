@@ -71,10 +71,10 @@ router.post('/edit-product/:id', (req,res)=>{
     if(req.files.image){
       let image = req.files.image
       image.mv('./public/product-images/'+proId+'.jpg')
-      console.log('new data added successfully')     
+     // console.log('new data added successfully')     
     }else{
       res.redirect('failed try again')
-      console.log("failed try again");
+      //console.log("failed try again");
     }
   })
 })
