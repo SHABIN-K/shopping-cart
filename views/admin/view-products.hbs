@@ -17,12 +17,12 @@
             {{#each products}}
              <tr>
                <th scope="row">{{@key}}</th>
-               <td>{{name}}</td>
+               <td>{{this.name}}</td>
                <td>{{this.category}}</td>
                <td>{{this.description}}</td>
                <td><img src="/product-images/{{this._id}}.jpg" alt="..img" width="50px" height="50px"></td>
                <td>
-                  <a href="/admin/edit-products" class="btn btn-success ms-auto">Edit</a>
+                  <a href="/admin/edit-product/{{this._id}}" class="btn btn-success ms-auto">Edit</a>
                   <a href="/admin/delete-products/{{this._id}}" class="btn btn-success ms-auto" onclick="return confirm('Do you need to delete {{name}}?')">Delete</a>
                  <!-- <a href="/admin/delete-products?id={{this._id}}&name=product" class="btn btn-success ms-auto">Delete</a>-->
               </td>
@@ -31,11 +31,11 @@
            </tbody>
         </table>
          {{#unless products}}
-                 <div class="pt-5">
-                    <h3 class="text-center mt-5">Sorry !! No products Found</h3><br>
-                    <p class="text-center">click below button to add products</p>
-                    <div class="text-center"><a href="/admin/add-products" class="btn btn-success">Add Product</a></div>
-                 </div>
+          <div class="pt-5">
+             <h3 class="text-center mt-5">Sorry !! No products Found</h3><br>
+             <p class="text-center">click below button to add products</p>
+             <div class="text-center"><a href="/admin/add-products" class="btn btn-success">Add Product</a></div>
+          </div>
          {{/unless}}
     </div>
 </section>
