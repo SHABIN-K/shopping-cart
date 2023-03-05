@@ -5,8 +5,8 @@ var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
 
 const verifyLogin = (req,res,next) =>{
-  if(req.session.LoggedIn){
-    console.log(req.session.LoggedIn);
+  if(req.session.userLoggedIn){
+    console.log(req.session.userLoggedIn);
     next()
   }else{
     console.log("user not login in");
@@ -45,17 +45,18 @@ router.post('/signup',(req, res)=>{
 
 /* GET Login page. */
 router.get('/login', (req,res) => {
-  if(req.session.loggedIn){
+  if(req.session.userLoggedIn){
     res.redirect('/')
   }else{
     res.render('user/login',{"loginError": req.session.loginError})
     req.session.loginError=false
   }
 });
+
 router.post('/login', (req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
-      req.session.loggedIn=true
+      req.session.userLoggedIn=true
       req.session.user=response.user
       res.redirect('/')
     }else{
@@ -71,8 +72,16 @@ router.get('/logout', (req,res) => {
 });
 
 /* GET Cart page. */
-router.get('/cart',verifyLogin, (req,res,) => {
+router.get('/cart',verifyLogin, (req,res) => {
   res.render('user/cart')
+});
+
+router.get('/add-to-cart/:id',verifyLogin, (req,res) => {
+  let proID = req.params.id
+  let userID =req.session.user._id
+  userHelper.addToCart(proID,userID).then(() => {
+    res.redirect('/cart')
+  })
 });
 
 module.exports = router;
