@@ -18,6 +18,7 @@ const verifyLogin = (req,res,next) =>{
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let user = req.session.user
+  let cartCount=cartHelper.getCartCount(user._id)
   productHelper.getAllProducts().then((products) =>{
      res.render('user/view-products', { products, user})
    })
@@ -85,7 +86,8 @@ router.get('/add-to-cart/:id',verifyLogin, (req,res) => {
   let proID = req.params.id
   let userID =req.session.user._id
   cartHelper.addToCart(proID,userID).then(() => {
-    res.redirect('/cart')
+
+    //res.redirect('/cart')
   })
 });
 
