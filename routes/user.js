@@ -88,7 +88,6 @@ router.get('/cart',verifyLogin, async (req,res) => {
 router.get('/add-to-cart/:id',(req,res) => {
   let proID = req.params.id
   let userID =req.session.user._id
-  log("api call")
   cartHelper.addToCart(proID,userID).then(() => {
     res.json({status:true})
     //res.redirect('/cart')
