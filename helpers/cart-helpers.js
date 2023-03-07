@@ -34,17 +34,17 @@ module.exports = {
                 },
                 {
                     $lookup:{
-                        from:collection.CART_COLLECTION,
+                        from:collection.PRODUCT_COLLECTION,
                         let:{proList:'$products'},
-                      //pipeline:[
-                      //    {
-                      //       $match:{
-                      //        $expr:{
-                      //            $in:['$_id',"$$proList"]
-                      //        }
-                      //       }
-                      //    }
-                      //],
+                        pipeline:[
+                            {
+                               $match:{
+                                $expr:{
+                                    $in:['$_id',"$$proList"]
+                                }
+                               }
+                            }
+                        ],
                         as:'cartItems'
                     }
                 }
