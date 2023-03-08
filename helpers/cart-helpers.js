@@ -47,13 +47,27 @@ module.exports = {
                     $match:{user:objectId(userID)}
                 },
                 {
-
+                    $unwind:'$products'
+                },
+                {
+                    $project:{
+                        item:'$products.item',
+                        quantity:'$products.quantity'
+                    }
+                },
+                {
+                    $lookup :{
+                        from:collection.PRODUCT_COLLECTION,
+                        localField:'item',
+                        foreignField:'_id',
+                        as:'product'
+                    }
                 }
                //{
                //    $lookup:{
                //        from:collection.PRODUCT_COLLECTION,
                //        let:{proList:'$products'},
-               //        pipeline:[
+               //        pipeline:[//pipline used for ulliloot nokkaan
                //            {
                //               $match:{
                //                $expr:{
@@ -67,7 +81,7 @@ module.exports = {
                //}
             ]).toArray()
            // console.log(cartItems);
-            resolve(cartItems[0].cartItems)
+            resolve(cartItems)
         })
     },
     getCartCount : (userID) => {
