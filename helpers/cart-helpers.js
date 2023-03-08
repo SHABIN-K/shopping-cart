@@ -4,21 +4,35 @@ var objectId=require('mongodb').ObjectID
 
 module.exports = {
     addToCart : (proID,userID) => {
+        let proObj={
+            item:objectId(proID),
+            quantity:1
+        }
         return new Promise (async(resolve,reject) => {
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({user :objectId(userID)})
             if(userCart){
+                let proExist=userCart.products.findIndex(product=>product.item==proID)
+                //console.log(proExist);
+                if(proExist!=-1){
+                    db.get().collection(collection.CART_COLLECTION).updateOne({'products.item':objectId(proID)},{
+                        $inc:{'products.$.quantity':1}
+                    }).then(()=>{
+                        resolve()
+                    })
+                }else{
                 db.get().collection(collection.CART_COLLECTION).updateOne({user:objectId(userID)},
                 {
                   $push:{
-                      products:objectId(proID)
+                      products:proObj
                   }
                 }).then((response) => {
                     resolve()
                 })
+                }
             }else{
                 let cartObj = {
                     user :objectId(userID),
-                    products : [objectId(proID)]
+                    products : [proObj]
                 }
                 db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
                     resolve()
@@ -33,22 +47,26 @@ module.exports = {
                     $match:{user:objectId(userID)}
                 },
                 {
-                    $lookup:{
-                        from:collection.PRODUCT_COLLECTION,
-                        let:{proList:'$products'},
-                        pipeline:[
-                            {
-                               $match:{
-                                $expr:{
-                                    $in:['$_id',"$$proList"]
-                                }
-                               }
-                            }
-                        ],
-                        as:'cartItems'
-                    }
+
                 }
+               //{
+               //    $lookup:{
+               //        from:collection.PRODUCT_COLLECTION,
+               //        let:{proList:'$products'},
+               //        pipeline:[
+               //            {
+               //               $match:{
+               //                $expr:{
+               //                    $in:['$_id',"$$proList"]
+               //                }
+               //               }
+               //            }
+               //        ],
+               //        as:'cartItems'
+               //    }
+               //}
             ]).toArray()
+           // console.log(cartItems);
             resolve(cartItems[0].cartItems)
         })
     },
