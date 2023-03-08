@@ -17,18 +17,21 @@ function addToCart(proID){
     }
   })
 } 
-//
-//function changeQuantity(cartId,proId,count){
-//  $.ajax({
-//    url:'/change-product-quantity',
-//    data: {
-//      cart:cartId,
-//      product:proId,
-//      count:count
-//    },
-//    method:'post',
-//    success: (resposne) => {
-//      alert(resposne)
-//    }
-//  })
-//}
+
+function changeQuantity(cartId,proId,count){
+ // console.log('change quantity callled on front end')
+ // let quantity = parseInt(document.getElementById(productId).innerHTML) 
+  count = parseInt(count)
+$.ajax({
+  url:'/change-product-quantity',
+  data: {
+    cart:cartId,
+    product:proId,
+    count:count
+  },
+  method:'post',
+  success: (resposne) => {
+    alert(resposne)
+  }
+})
+}
