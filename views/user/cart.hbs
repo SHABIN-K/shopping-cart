@@ -12,14 +12,14 @@
             <tbody>
                 {{#each products}}
                 <tr>
-                    {{#each this.product}}
-                    <td><img style="width: 70px; height: 70px;" src="/product-images/{{this._id}}.jpg" alt="product images">
+                    <td><img style="width: 70px; height: 70px;" src="/product-images/{{this.product._id}}.jpg" alt="product images">
                     </td>
-                    <td>{{this.name}}</td>
-                    <td>{{this.Price}}</td>
-                    {{/each}}
+                    <td>{{this.product.name}}</td>
+                    <td>{{this.product.Price}}</td>
                     <td>
-                        <button class="cart-item-count mr-3">-</button>{{this.quantity}}<button class="cart-item-count ml-3">+</button>
+                        <button class="btn btn-primary cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}', -1)">-</button>
+                        {{this.quantity}}
+                        <button class="btn btn-primary cart-item-count mr-3"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}', 1)">+</button>
                     </td>
                     <td>
                         <a href="" class="btn btn-danger">Remove</a>
@@ -37,3 +37,24 @@
          {{/unless}}       
     </div>
 </section>
+
+<script>
+function changeQuantity(userId,cartId,proId,count){
+    console.log('change quantity callled on front end')
+   // let quantity = parseInt(document.getElementById(productId).innerHTML) 
+    count = parseInt(count)
+  $.ajax({
+    url:'/change-product-quantity',
+    data: {
+      user:userId,
+      cart:cartId,
+      product:proId,
+      count:count
+    },
+    method:'post',
+    success: (resposne) => {
+      alert(resposne)
+    }
+  })
+}
+</script>

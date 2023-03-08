@@ -14,7 +14,7 @@ module.exports = {
                 let proExist=userCart.products.findIndex(product=>product.item==proID)
                 //console.log(proExist);
                 if(proExist!=-1){
-                    db.get().collection(collection.CART_COLLECTION).updateOne({'products.item':objectId(proID)},{
+                    db.get().collection(collection.CART_COLLECTION).updateOne({user :objectId(userID),'products.item':objectId(proID)},{
                         $inc:{'products.$.quantity':1}
                     }).then(()=>{
                         resolve()
@@ -62,6 +62,13 @@ module.exports = {
                         foreignField:'_id',
                         as:'product'
                     }
+                },
+                {  //https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayElemAt/
+                    $project: {
+                        item:1,
+                        quantity:1,
+                        product: { $arrayElemAt: [ '$product', 0] }
+                    }
                 }
                //{
                //    $lookup:{
@@ -92,6 +99,22 @@ module.exports = {
                 count = cart.products.length
             }
             resolve(count)
+        })
+    },
+    changeProductQuantity : (countBody) => {
+        count = parseInt(countBody.count)
+        console.log('count:', count);
+        console.log('cart:', countBody.cart);
+        console.log('product:', countBody.product);
+
+        return new Promise((resolve,reject) => {
+            db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},
+            {
+                $inc:{'products.$.quantity':count}
+            }).then((result)=>{
+               // console.log("update result:", result);
+                resolve()
+            })        
         })
     }
 }
