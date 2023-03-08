@@ -103,9 +103,7 @@ module.exports = {
     },
     changeProductQuantity : (countBody) => {
         count = parseInt(countBody.count)
-        console.log('count:', count);
-        console.log('cart:', countBody.cart);
-        console.log('product:', countBody.product);
+        console.log(countBody);
 
         return new Promise((resolve,reject) => {
             db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},

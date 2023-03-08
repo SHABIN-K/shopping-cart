@@ -94,11 +94,10 @@ router.get('/add-to-cart/:id',(req,res) => {
   })
 });
 
-router.post('/change-product-quantity', (req,res) =>{
-  //console.log(req.body);
-  cartHelper.changeProductQuantity(req.body).then((response) => {
-    console.log('quantity changed');
-    res.json("data changed"+response)
+router.post('/change-product-quantity',async (req,res) =>{
+ await cartHelper.changeProductQuantity(req.body).then((response) => {
+   // console.log('quantity changed');
+    res.json("data changed "+response)
   })
 });
 
