@@ -15,23 +15,32 @@ function addToCart(proID){
         $("#cart-count").html(count)
       }
     }
+
+
   })
 } 
 
 function changeQuantity(cartId,proId,count){
- // console.log('change quantity callled on front end')
- // let quantity = parseInt(document.getElementById(productId).innerHTML) 
+  console.log('change quantity callled on front end')
+  let quantity = parseInt(document.getElementById(proId).innerHTML) 
   count = parseInt(count)
-$.ajax({
-  url:'/change-product-quantity',
-  data: {
-    cart:cartId,
-    product:proId,
-    count:count
-  },
-  method:'post',
-  success: (resposne) => {
-    alert(resposne)
-  }
-})
+    
+    $.ajax({
+      url:'/change-product-quantity',
+      data: {
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+      },
+      method:'post',
+      success: (resposne) => {
+        if(resposne.removeProduct){
+          alert("product Removed from cart")
+          location.reload()
+        }else{
+          document.getElementById(proId).innerHTML=quantity+count
+        }
+      }
+    })
 }
