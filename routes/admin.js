@@ -58,23 +58,29 @@ router.get('/delete-products/:id', function(req,res){
 router.get('/edit-product/:id', async function(req,res){
   let proId = req.params.id
   let editProduct = await productHelper.getProductDetails(proId)
- //console.log(editProduct);
+ //console.log(editProduct); 
   res.render('admin/edit-product', {admin :true,editProduct})
 });
+
 
 router.post('/edit-product/:id', (req,res)=>{
   let proId = req.params.id
   let updatedData =req.body
   productHelper.updateProduct(proId,updatedData).then(()=>{
-   // console.log("update successfully");
-    res.redirect('/admin/')
-    if(req.files.image){
+    //console.log("update successfully");
+    if(req.files && req.files.image){    
       let image = req.files.image
-      image.mv('./public/product-images/'+proId+'.jpg')
-     // console.log('new data added successfully')     
+      image.mv('./public/product-images/'+proId+'.jpg', (err) => {
+        if(err){
+          console.log(err);
+        }else{
+          console.log('new data added successfully')  
+          res.redirect('/admin/')       
+        }
+      })     
     }else{
-      res.redirect('failed try again')
-      //console.log("failed try again");
+      console.log("failed try again"); 
+      res.redirect('/admin/')
     }
   })
 })
