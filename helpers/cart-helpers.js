@@ -123,6 +123,6 @@ module.exports = {
                      resolve(true)
                  })
             }      
-        })
+        }) 
     }
 }
