@@ -105,9 +105,9 @@ module.exports = {
         count = parseInt(countBody.count)
         quantity = parseInt(countBody.quantity)
        // console.log(countBody);
-        return new Promise((resolve,reject) => {
+        return new Promise(async (resolve,reject) => {
             if(count==-1 && quantity==1){
-                db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart)},
+              await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart)},
                  {
                      $pull:{products:{item:objectId(countBody.product)}}
                  }
@@ -115,7 +115,7 @@ module.exports = {
                      resolve({removeProduct:true})
                  }) 
             }else{
-                db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},
+               await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},
                  {
                      $inc:{'products.$.quantity':count}
                  }).then((response)=>{

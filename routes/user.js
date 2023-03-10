@@ -94,8 +94,8 @@ router.get('/add-to-cart/:id',(req,res) => {
   })
 });
 
-router.post('/change-product-quantity', (req,res) =>{
-  cartHelper.changeProductQuantity(req.body).then((response) => {
+router.post('/change-product-quantity',async (req,res) =>{
+ await cartHelper.changeProductQuantity(req.body).then((response) => {
    // console.log('quantity changed');
    res.json(response)
   })

@@ -21,8 +21,8 @@ function addToCart(proID){
 } 
 
 function changeQuantity(cartId,proId,count){
-  console.log('change quantity callled on front end')
-  let quantity = parseInt(document.getElementById(proId).innerHTML) 
+
+  let quantity = parseInt(document.getElementById(proId).innerHTML); 
   count = parseInt(count)
     
     $.ajax({
