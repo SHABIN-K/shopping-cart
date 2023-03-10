@@ -21,7 +21,6 @@ function addToCart(proID){
 } 
 
 function changeQuantity(cartId,proId,count){
-
   let quantity = parseInt(document.getElementById(proId).innerHTML); 
   count = parseInt(count)
     
