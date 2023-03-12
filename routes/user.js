@@ -23,6 +23,7 @@ router.get('/', async function(req, res, next) {
     cartCount=await cartHelper.getCartCount(user._id)
   }
   productHelper.getAllProducts().then((products) =>{
+     console.log(products);
      res.render('user/view-products', { products, user, cartCount})
    })
 });
