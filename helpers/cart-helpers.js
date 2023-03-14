@@ -125,16 +125,20 @@ module.exports = {
             }      
         }) 
     },
-    removeItem : (itemDetails) => {
-        return new Promise((resolve,reject) => {
-            db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(itemDetails.cart)},
-            {
-                $pull:{products:{item:objectId(itemDetails.product)}}
+    removeItem: (itemDetails) => {
+        return new Promise((resolve, reject) => {
+          db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(itemDetails.cart) },
+            { 
+                $pull: { products: { item: objectId(itemDetails.product) } } 
             }
-            ).then(() => {
-               // console.log("item removed successfully");
-                resolve({removeProduct:true})
-            })
-        })
-    }
+          ).then(() => {
+            //console.log("item removed successfully");
+            resolve({ success: true }); // send a valid JSON response
+          }).catch((error) => {
+            //console.error(error);
+            reject(error);
+          });
+        });
+      }
+      
 }

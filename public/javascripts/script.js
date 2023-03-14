@@ -44,17 +44,49 @@ function changeQuantity(cartId,proId,count){
 }
 
 function removeItem(cartId,proId){
-  console.log('remove item function called on frontend')
-  $.ajax({
-    url:'/remove-item',
-    data: {
-      cart:cartId,
-      product:proId
-    },
-    method:'post',
-    success : () => {
-      alert("product removed from cart")
-      location.reload()
+ // console.log('remove item function called on frontend')
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: '/remove-item',
+        data: {
+          cart: cartId,
+          product: proId
+        },
+        method: 'post',
+        success: (response) => {
+          if (response.success) {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your item has been removed.',
+              icon: 'success',
+            }).then(() => {
+              location.reload();
+            });
+          }  else {
+            console.error('ERROR: Invalid response');
+          }
+        },
+        error: (error) => {
+          console.error('ERROR:', error);
+        }
+      });
+    } else if (
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      Swal.fire(
+        'Cancelled',
+        'Your item has not been removed. :)',
+        'error'
+      )
     }
   })
 }

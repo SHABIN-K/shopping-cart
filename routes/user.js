@@ -86,7 +86,7 @@ router.get('/cart',verifyLogin, async (req,res) => {
   res.render('user/cart', {products,user})
 });
 
-router.get('/add-to-cart/:id',(req,res) => {
+router.get('/add-to-cart/:id',verifyLogin,(req,res) => {
   let proID = req.params.id
   let userID =req.session.user._id
   cartHelper.addToCart(proID,userID).then(() => {
@@ -102,9 +102,9 @@ router.post('/change-product-quantity',async (req,res) =>{
   })
 });
 
-router.post("/remove-item", (req, res) => {
+router.post("/remove-item", async (req, res) => {
  // console.log('remove-item api call');
-  cartHelper.removeItem(req.body).then((response) => {
+ await cartHelper.removeItem(req.body).then((response) => {
     res.json(response)
   })
 });
