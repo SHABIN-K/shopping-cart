@@ -101,30 +101,47 @@ module.exports = {
             resolve(count)
         })
     },
-    changeProductQuantity : (countBody) => {
-        count = parseInt(countBody.count)
-        quantity = parseInt(countBody.quantity)
-       // console.log(countBody);
-        return new Promise(async (resolve,reject) => {
-            if(count==-1 && quantity==1){
-              await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart)},
-                 {
-                     $pull:{products:{item:objectId(countBody.product)}}
-                 }
-                 ).then(()=>{
-                     resolve({removeProduct:true})
-                 }) 
-            }else{
-               await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},
-                 {
-                     $inc:{'products.$.quantity':count}
-                 }).then(()=>{
-                     //console.log("update result:", response);
-                     resolve(true)
-                 })
-            }      
-        }) 
-    },
+    changeProductQuantity: (countBody) => {
+        let count = parseInt(countBody.count);
+        let quantity = parseInt(countBody.quantity);
+        return new Promise(async (resolve, reject) => {
+          if (count === -1 && quantity === 1) {
+            // Remove product from cart
+            await db.get().collection(collection.CART_COLLECTION).updateOne({
+              _id: objectId(countBody.cart)
+            }, {
+              $pull: {
+                products: {
+                  item: objectId(countBody.product)
+                }
+              }
+            }).then(() => {
+              resolve({
+                removeProduct: true
+              });
+            }).catch((err) => {
+              reject(err);
+            });
+          } else {
+            // Update product quantity in cart
+            await db.get().collection(collection.CART_COLLECTION).updateOne({
+              _id: objectId(countBody.cart),
+              'products.item': objectId(countBody.product)
+            }, {
+              $inc: {
+                'products.$.quantity': count
+              }
+            }).then(() => {
+              resolve({
+                success: true
+              });
+            }).catch((err) => {
+              reject(err);
+            });
+          }
+        });
+      }
+      ,
     removeItem: (itemDetails) => {
         return new Promise((resolve, reject) => {
           db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(itemDetails.cart) },

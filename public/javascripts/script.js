@@ -19,29 +19,81 @@ function addToCart(proID){
   })
 } 
 
-function changeQuantity(cartId,proId,count){
-  let quantity = parseInt(document.getElementById(proId).innerHTML); 
-  count = parseInt(count)
-    
-    $.ajax({
-      url:'/change-product-quantity',
-      data: {
-        cart:cartId,
-        product:proId,
-        count:count,
-        quantity:quantity
-      },
-      method:'post',
-      success: (resposne) => {
-        if(resposne.removeProduct){
-          alert("product Removed from cart")
-          location.reload()
-        }else{
-          document.getElementById(proId).innerHTML=quantity+count
-        }
+function changeQuantity(cartId, proId, count) {
+  let quantity = parseInt(document.getElementById(proId).innerHTML);
+  let newCount = parseInt(count);
+  let oldCount = quantity;
+
+  $.ajax({
+    url: '/change-product-quantity',
+    data: {
+      cart: cartId,
+      product: proId,
+      count: newCount - oldCount,
+      quantity: quantity
+    },
+    method: 'post',
+    success: (response) => {
+      if (!response.removeProduct) {
+        document.getElementById(proId).innerHTML = quantity + newCount - oldCount;
+      } else {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '/remove-item',
+              data: {
+                cart: cartId,
+                product: proId
+              },
+              method: 'post',
+              success: (response) => {
+                if (response.success) {
+                  Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Your item has been removed.',
+                    icon: 'success',
+                  }).then(() => {
+                    location.reload();
+                  });
+                } else {
+                  Swal.fire(
+                    'Error!',
+                    'There was an error removing your item.',
+                    'error'
+                  );
+                }
+              },
+              error: (error) => {
+                console.error('ERROR :' + error);
+              }
+            });
+          } else if (
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            Swal.fire(
+              'Cancelled',
+              'Your item not removed. :)',
+              'error'
+            );
+          }
+        });
       }
-    })
+    },
+    error: (error) => {
+      console.error('ERROR :' + error);
+    }
+  });
 }
+
+
 
 function removeItem(cartId,proId){
  // console.log('remove item function called on frontend')
