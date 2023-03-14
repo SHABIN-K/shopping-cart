@@ -1,5 +1,4 @@
 
-
 function viewImage(event){
   document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
 }
@@ -42,4 +41,20 @@ function changeQuantity(cartId,proId,count){
         }
       }
     })
+}
+
+function removeItem(cartId,proId){
+  console.log('remove item function called on frontend')
+  $.ajax({
+    url:'/remove-item',
+    data: {
+      cart:cartId,
+      product:proId
+    },
+    method:'post',
+    success : () => {
+      alert("product removed from cart")
+      location.reload()
+    }
+  })
 }

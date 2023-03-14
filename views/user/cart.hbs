@@ -22,7 +22,7 @@
                         <button class="btn btn-primary cart-item-count mr-3"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}', 1)">+</button>
                     </td>
                     <td>
-                        <a href="" class="btn btn-danger">Remove</a>
+                        <button class="btn btn-danger" onclick="removeItem('{{this._id}}','{{this.product._id}}')">Remove</button>
                     </td>
                 </tr>
                 {{/each}}

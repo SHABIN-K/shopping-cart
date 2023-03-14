@@ -23,7 +23,7 @@ router.get('/', async function(req, res, next) {
     cartCount=await cartHelper.getCartCount(user._id)
   }
   productHelper.getAllProducts().then((products) =>{
-     console.log(products);
+    // console.log(products);
      res.render('user/view-products', { products, user, cartCount})
    })
 });
@@ -99,6 +99,13 @@ router.post('/change-product-quantity',async (req,res) =>{
  await cartHelper.changeProductQuantity(req.body).then((response) => {
    // console.log('quantity changed');
    res.json(response)
+  })
+});
+
+router.post("/remove-item", (req, res) => {
+ // console.log('remove-item api call');
+  cartHelper.removeItem(req.body).then((response) => {
+    res.json(response)
   })
 });
 

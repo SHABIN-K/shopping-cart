@@ -111,18 +111,30 @@ module.exports = {
                  {
                      $pull:{products:{item:objectId(countBody.product)}}
                  }
-                 ).then((response)=>{
+                 ).then(()=>{
                      resolve({removeProduct:true})
                  }) 
             }else{
                await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(countBody.cart), 'products.item':objectId(countBody.product)},
                  {
                      $inc:{'products.$.quantity':count}
-                 }).then((response)=>{
+                 }).then(()=>{
                      //console.log("update result:", response);
                      resolve(true)
                  })
             }      
         }) 
+    },
+    removeItem : (itemDetails) => {
+        return new Promise((resolve,reject) => {
+            db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(itemDetails.cart)},
+            {
+                $pull:{products:{item:objectId(itemDetails.product)}}
+            }
+            ).then(() => {
+               // console.log("item removed successfully");
+                resolve({removeProduct:true})
+            })
+        })
     }
 }
