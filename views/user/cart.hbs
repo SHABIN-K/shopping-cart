@@ -1,5 +1,6 @@
 <section>
     <div class="container">
+    {{#if products}}
         <table class="table mt-5">
             <thead>
                 <tr>
@@ -10,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each products}}
+        {{#each products}}    
                 <tr>
                     <td><img style="width: 70px; height: 70px;" src="/product-images/{{this.product._id}}.jpg" alt="product images">
                     </td>
@@ -25,15 +26,20 @@
                         <button class="btn btn-danger" onclick="removeItem('{{this._id}}','{{this.product._id}}')">Remove</button>
                     </td>
                 </tr>
-                {{/each}}
+        {{/each}}
             </tbody>
-        </table>
-         {{#unless products}}
-          <div class="pt-5">
-             <h3 class="text-center mt-5">Sorry !! No products Found</h3><br>
-             <p class="text-center">click below button to Place order</p>
-             <div class="text-center"><a href="/" class="btn btn-success">Place Order</a></div>
-          </div>
-         {{/unless}}       
+        </table> 
+        <div class=" bg-white" style="position: sticky; bottom: 0px;">
+            <div class="total-separator"></div>
+            <h3 class="float-start  mt-2">Total : RS.1000</h3><br>
+            <a href="/place-order" class="btn btn-success mt-2 w-100 mb-5"><b>Place Order</b></a>
+        </div> 
+     {{else}}  
+         <div class="" style="margin-top:15rem">
+            <h1 class="text-center">Your cart is empty!</h1><br>
+            <p class="text-center fs-2">Add items to it now</p>
+            <div class="text-center"><a href="/" class="btn btn-success fs-4 w-25">Shop now</a></div>
+         </div> 
+    {{/if}}  
     </div>
 </section>
