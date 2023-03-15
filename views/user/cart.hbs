@@ -10,20 +10,22 @@
                     <th scope="col">Quantity</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="height: 250px;">
         {{#each products}}    
                 <tr>
-                    <td><img style="width: 70px; height: 70px;" src="/product-images/{{this.product._id}}.jpg" alt="product images">
+                    <td><img style="width: 90px; height: 90px;" src="/product-images/{{this.product._id}}.jpg" alt="product images">
                     </td>
-                    <td>{{this.product.name}}</td>
-                    <td>Rs.{{this.product.Price}}</td>
+                    <td class="fs-5">{{this.product.name}}</td>
+                    <td class="fs-5">Rs.{{this.product.Price}}</td>
                     <td>
-                        <button class="btn btn-primary cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}', -1)">-</button>
-                        <span id="{{this.product._id}}">{{this.quantity}}</span>
-                        <button class="btn btn-primary cart-item-count mr-3"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}', 1)">+</button>
+                        <div class="mt-5">
+                          <button class="btn btn-primary cart-item-count mr-3 " onclick="changeQuantity('{{this._id}}','{{this.product._id}}', -1)">-</button>
+                          <span id="{{this.product._id}}">{{this.quantity}}</span>
+                          <button class="btn btn-primary cart-item-count mr-3"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}', 1)">+</button>
+                        </div>
                     </td>
                     <td>
-                        <button class="btn btn-danger" onclick="removeItem('{{this._id}}','{{this.product._id}}')">Remove</button>
+                        <button class="btn btn-danger mt-5" onclick="removeItem('{{this._id}}','{{this.product._id}}')">Remove</button>
                     </td>
                 </tr>
         {{/each}}
