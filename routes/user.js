@@ -5,13 +5,13 @@ var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
 var cartHelper = require('../helpers/cart-helpers')
 
-const verifyLogin = (req,res,next) =>{
-  if(req.session.userLoggedIn){
+const verifyLogin = (req, res, next) => {
+  if (req.session.userLoggedIn) {
     console.log(req.session.userLoggedIn);
-    next()
-  }else{
+    next();
+  } else {
     console.log("user not login in");
-    res.redirect('/login')
+    res.redirect('/login');
   }
 }
 
@@ -30,7 +30,7 @@ router.get('/', async function(req, res, next) {
 
 /* GET signup page. */
 router.get('/signup',(req, res) => {
-  if(req.session.userloggedIn){
+  if(req.session.userLoggedIn){
     res.redirect('/')
   }else{
     res.render('user/signup')
