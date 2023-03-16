@@ -109,5 +109,10 @@ router.post("/remove-item", async (req, res) => {
   })
 });
 
+router.get("/place-order", (req, res) => {
+  res.render('user/place-order')
+});
+
+
 
 module.exports = router;
