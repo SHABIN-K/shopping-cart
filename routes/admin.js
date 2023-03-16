@@ -4,7 +4,6 @@ var fs = require('fs')
 
 var productHelper = require('../helpers/product-helpers')
 
-
 /* GET Admin listing. */
 
 router.get('/', function(req, res, next) {
@@ -17,9 +16,6 @@ router.get('/', function(req, res, next) {
 router.get('/add-products', function(req,res){
   res.render('admin/add-products', {admin :true})
 });
-
-
-
 router.post('/add-products', function(req,res){
   //console.log(req.body);
   //console.log(req.files.image);

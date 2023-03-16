@@ -4,6 +4,7 @@ var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
 var cartHelper = require('../helpers/cart-helpers')
+var placeOrderHelper = require('../helpers/place-order')
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -82,8 +83,9 @@ router.get('/cart',verifyLogin, async (req,res) => {
   let userID =req.session.user._id
   let user = req.session.user
   let products =await cartHelper.getCartProducts(userID)
+  let total= await placeOrderHelper.getTotalAmount(userID)
  // console.log(products);
-  res.render('user/cart', {products,user})
+  res.render('user/cart', {products,user,total})
 });
 
 router.get('/add-to-cart/:id',(req,res) => {
@@ -109,8 +111,12 @@ router.post("/remove-item", async (req, res) => {
   })
 });
 
-router.get("/place-order", (req, res) => {
-  res.render('user/place-order')
+router.get("/place-order",verifyLogin, async(req, res) => {
+  console.log("place order api call");
+  let userID =req.session.user._id
+  let total= await placeOrderHelper.getTotalAmount(userID)
+  console.log(total);
+  res.render('user/place-order',{total})
 });
 
 
