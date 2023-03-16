@@ -8,10 +8,10 @@ var placeOrderHelper = require('../helpers/place-order')
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
-    console.log(req.session.userLoggedIn);
+    //console.log(req.session.userLoggedIn);
     next();
   } else {
-    console.log("user not login in");
+   // console.log("user not login in");
     res.redirect('/login');
   }
 }
@@ -115,7 +115,6 @@ router.get("/place-order",verifyLogin, async(req, res) => {
   console.log("place order api call");
   let userID =req.session.user._id
   let total= await placeOrderHelper.getTotalAmount(userID)
-  console.log(total);
   res.render('user/place-order',{total})
 });
 

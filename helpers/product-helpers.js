@@ -4,16 +4,8 @@ var objectId=require('mongodb').ObjectID
 
 module.exports={
     addProduct:(product, callback)=>{
-        let Price = parseInt(product.Price)
      // console.log(product);
-        db.get().collection('product').insertOne(
-            {
-                name:product.name,
-                category:product.category,
-                Price:Price,
-                description:product.description 
-            }
-        ).then((data) => {
+        db.get().collection('product').insertOne(product).then((data) => {
            callback(data.ops[0]._id)
         })
     },
@@ -40,9 +32,6 @@ module.exports={
         })
     },
     updateProduct : (proId,updatedData) =>{
-        let Price = parseInt(updatedData.Price)
-        console.log(updatedData.Price);
-        console.log(Price);
         return new Promise((resolve,reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION)
             .updateOne({_id:objectId(proId)},
@@ -51,7 +40,7 @@ module.exports={
                 {
                     name:updatedData.name,
                     category:updatedData.category,
-                    Price:Price,
+                    Price:updatedData.Price,
                     description:updatedData.description 
                 }
             }).then((response) => {

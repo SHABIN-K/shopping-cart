@@ -28,7 +28,7 @@ module.exports = {
                 },
                 {  
                     $project: {
-                        item:1, 
+                        item:1,
                         quantity:1,
                         product: { $arrayElemAt: [ '$product', 0] }
                     }
@@ -38,7 +38,10 @@ module.exports = {
                         _id:null,
                         total:{
                             $sum:{
-                                $multiply: ['$quantity','$product.Price']
+                                $multiply: [
+                                    { $toInt: "$quantity" },
+                                    { $toDouble: "$product.Price" }
+                                  ]
                             }
                         }
                     }
@@ -48,7 +51,4 @@ module.exports = {
             resolve(total[0].total)
         })
     }
-}
-$project: {
-    total:{$sum:{$multiply:['$quantity','$product.Price']}}
 }
