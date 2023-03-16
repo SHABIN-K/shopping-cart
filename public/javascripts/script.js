@@ -85,7 +85,7 @@ function removeItem(cartId,proId){
           console.error('ERROR:', error);
         }
       });
-    } else if (
+    } else if ( 
       result.dismiss === Swal.DismissReason.cancel
     ) {
       Swal.fire(
