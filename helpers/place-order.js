@@ -51,9 +51,16 @@ module.exports = {
             resolve(total[0].total)
         })
     },
-    placeOrder : (orderDetails) => {
-        return new Promise((reslove,reject) => {
-            
+    placeOrder : (orderDetails,products,totalAmount) => {
+        return new Promise((resolve,reject) => {
+           //console.log("order : " + JSON.stringify(orderDetails) +"\n products :"+ JSON.stringify(products) + "\n Amount :"+ JSON.stringify(totalAmount));
+        })
+    },
+    getCartProductList : (userID) => {
+        return new Promise(async(resolve,reject) => {
+            let cart =await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userID)})
+            //console.log(cart);
+            resolve(cart.products)
         })
     }
 }
