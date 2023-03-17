@@ -1,16 +1,16 @@
 <section>
     <div class="container" style="margin-top: 5rem;">
-        <form id="checkout-form" action="" method="post">
+        <form id="checkout-form">
             <div class="row">
                 <div class="col-md-6">
                     <h2>Enter Shipping details</h2><br>
                     <div>
                         <label for="">Address</label>
-                        <input type="text" name="address" id="address" class="form-control">
+                        <input type="text" name="address" id="address" class="form-control border-success">
                         <label for="">Pincode</label>
-                        <input type="text" name="pincode" id="pincode" class="form-control">
+                        <input type="text" name="pincode" id="pincode" class="form-control border-success">
                         <label for="">Mobile number</label>
-                        <input type="tel" name="mobile" id="mobile" class="form-control">
+                        <input type="tel" name="mobile" id="mobile" class="form-control border-success">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -20,6 +20,7 @@
                            <hr>
                            <div class="payment">
                                <p>Payment Method</p>
+                               <input type="hidden" name="userId" value="{{user._id}}">
                                <label class="radio-inline">
                                    <input type="radio" name="payment-method" value="COD" checked>COD
                                </label><br>
@@ -27,7 +28,6 @@
                                    <input type="radio" name="payment-method" value="ONLINE">Online payment
                                </label><br>
                                <div class="mt-3 ">
-                                 <input type="text" name="userId" hidden>
                                  <button class="btn btn-primary w-100" type="submit">Checkout</button>
                                </div>
                            </div>
@@ -38,3 +38,17 @@
         </form>
     </div>
 </section> 
+
+<script>
+    $("#checkout-form").submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$('#checkout-form').serialize(), //serialize = form nte yellaam datayum kittaan
+            success:(response) =>{
+                alert(response)
+            }  
+        })
+    })
+</script>

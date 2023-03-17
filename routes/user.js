@@ -116,14 +116,13 @@ router.post("/remove-item", async (req, res) => {
 router.get("/place-order",verifyLogin, async(req, res) => {
   //console.log("place order api call");
   let userID =req.session.user._id
+  let user = req.session.user
   let total= await placeOrderHelper.getTotalAmount(userID)
-  res.render('user/place-order',{total})
+  res.render('user/place-order',{total,user})
 });
 
 router.post("/place-order", (req, res) => {
-  
+  placeOrderHelper.placeOrder(req.body).then((response) => {})  
 });
-
-
 
 module.exports = router;

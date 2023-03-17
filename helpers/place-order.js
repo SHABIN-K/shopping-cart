@@ -50,5 +50,10 @@ module.exports = {
             //console.log(total);
             resolve(total[0].total)
         })
+    },
+    placeOrder : (orderDetails) => {
+        return new Promise((reslove,reject) => {
+            
+        })
     }
 }
