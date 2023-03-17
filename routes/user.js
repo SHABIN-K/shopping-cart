@@ -98,8 +98,10 @@ router.get('/add-to-cart/:id',(req,res) => {
 });
 
 router.post('/change-product-quantity',async (req,res) =>{
- await cartHelper.changeProductQuantity(req.body).then((response) => {
+ await cartHelper.changeProductQuantity(req.body).then(async(response) => {
    // console.log('quantity changed');
+   let userID =req.body.user
+   response.totalAmount = await placeOrderHelper.getTotalAmount(userID) 
    res.json(response)
   })
 });

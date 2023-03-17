@@ -19,13 +19,14 @@ function addToCart(proID){
   })
 } 
 
-function changeQuantity(cartId, proId, count) {
+function changeQuantity(cartId, proId,userId, count) {
   let quantity = parseInt(document.getElementById(proId).innerHTML);
   count = parseInt(count);
 
   $.ajax({
     url: '/change-product-quantity',
     data: {
+      user:userId,
       cart: cartId,
       product: proId,
       count: count,
@@ -35,6 +36,7 @@ function changeQuantity(cartId, proId, count) {
     success: (response) => {
       if (!response.removeProduct) {
         document.getElementById(proId).innerHTML = quantity + count;
+        document.getElementById("totalAmount").innerHTML = response.totalAmount;
       } else {
         Swal.fire({
           title: 'Removed!',
