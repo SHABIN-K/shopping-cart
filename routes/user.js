@@ -5,6 +5,7 @@ var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
 var cartHelper = require('../helpers/cart-helpers')
 var placeOrderHelper = require('../helpers/place-order')
+var userOrderHelper = require('../helpers/order-helpers')
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -131,10 +132,17 @@ router.post("/place-order", async(req, res) => {
   })  
 });
 
-router.get("/confirm-order", (req, res) => {
+router.get("/order-success",verifyLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/confirm-order',{user})
+  res.render('user/order-success',{user})
 });
 
+router.get("/orders",verifyLogin, async(req, res) => {
+  let user = req.session.user
+  let userID =req.session.user._id
+  let orders = await userOrderHelper.getUserOrders(userID)
+  console.log(orders);
+  res.render('user/orders-view',{user,orders})
+});
 
 module.exports = router;

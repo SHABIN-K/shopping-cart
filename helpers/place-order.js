@@ -57,9 +57,9 @@ module.exports = {
            let status = orderDetails['payment-method'] === 'COD'?'placed':'pending'
 
            let orderObj ={
-            userID:objectId(orderDetails.userId),
+            user:objectId(orderDetails.userId),
             products:products,
-            Amount:totalAmount,
+            amount:totalAmount,
             deliveryDetails:{
                 mobile:orderDetails.mobile,
                 address:orderDetails.address,

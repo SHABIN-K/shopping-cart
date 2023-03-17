@@ -1,0 +1,47 @@
+<section style="margin-top:5rem">
+    <div class="container">
+        <table class="table mt-4" id="product-table">
+           <thead>
+             <tr>
+               <th scope="col">Date</th>
+               <th scope="col">Address</th>
+               <th scope="col">Zipcode</th>
+               <th scope="col">Mobile</th>
+               <th scope="col">Amount</th>
+               <th scope="col">Payment</th>
+               <th scope="col">Status</th>
+             </tr>
+           </thead>
+           <tbody>
+            {{#each orders}}
+             <tr>
+               <td>{{this.date}}</td>
+               <td>{{this.deliveryDetails.address}}</td>
+               <td>{{this.deliveryDetails.pincode}}</td>
+               <td>{{this.deliveryDetails.mobile}}</td>
+               <td>{{this.amount}}</td>
+               <td>{{this.paymentMethod}}</td>
+               <td>{{this.status}}</td>
+               <td>
+                  <a href="/view-order-product/{{this._id}}" class="btn btn-success ms-auto">View Product</a>
+              </td>
+             </tr>
+             {{/each}}
+           </tbody>
+        </table>
+         {{#unless orders}}
+           <div class="border border-success border-3" style="margin-top:10rem">
+            <div class="mt-4 mb-4">
+               <h3 class="text-center mt-5">Sorry !! No Order Found</h3><br>
+               <div class="text-center"><a href="/cart/" class="btn btn-success fw-semibold">Go to cart</a></div>
+            </div>
+          </div>
+         {{/unless}}
+    </div>
+</section>
+
+<script>
+  $(document).ready( function () {
+    $('#product-table').DataTable();
+} );
+</script>
