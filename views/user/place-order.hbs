@@ -46,9 +46,12 @@
         $.ajax({
             url:'/place-order',
             method:'post',
-            data:$('#checkout-form').serialize(), //serialize = form nte yellaam datayum kittaan
+            data:$('#checkout-form').serialize(), //serialize() = form nte yellaam datayum kittaan
             success:(response) =>{
-                alert(response)
+                if(response.status){
+                    console.log(response.status);
+                    location.href = '/confirm-order';
+                }
             }  
         })
     })

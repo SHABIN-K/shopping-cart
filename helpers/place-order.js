@@ -54,6 +54,26 @@ module.exports = {
     placeOrder : (orderDetails,products,totalAmount) => {
         return new Promise((resolve,reject) => {
            //console.log("order : " + JSON.stringify(orderDetails) +"\n products :"+ JSON.stringify(products) + "\n Amount :"+ JSON.stringify(totalAmount));
+           let status = orderDetails['payment-method'] === 'COD'?'placed':'pending'
+
+           let orderObj ={
+            userID:objectId(orderDetails.userId),
+            products:products,
+            Amount:totalAmount,
+            deliveryDetails:{
+                mobile:orderDetails.mobile,
+                address:orderDetails.address,
+                pincode:orderDetails.pincode
+            },
+            date:new Date(),
+            paymentMethod:orderDetails['payment-method'],
+            status:status
+           }
+
+           db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
+            //db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(orderDetails.userId)})
+            resolve()
+           })
         })
     },
     getCartProductList : (userID) => {
