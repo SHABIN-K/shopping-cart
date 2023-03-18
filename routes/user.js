@@ -145,4 +145,10 @@ router.get("/orders",verifyLogin, async(req, res) => {
   res.render('user/orders-view',{user,orders})
 });
 
+router.get("/view-order-product/:id",verifyLogin, async(req, res) => {
+  let user = req.session.user
+  let product = await userOrderHelper.getOrderProducts(req.params.id)
+  res.render('user/view-order',{user,product})
+});
+
 module.exports = router;
