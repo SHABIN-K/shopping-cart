@@ -1,7 +1,9 @@
 var db= require('../Config/connection')
 var collection= require('../Config/collections')
+var objectId=require('mongodb').ObjectID
 
 const bcrypt = require('bcrypt')
+
 
 module.exports = {
     doSignup: (userData) => {
@@ -37,6 +39,14 @@ module.exports = {
                 //console.log("user not found");
                 resolve({ status: false })
             }
+        })
+    },
+    getUserDetails : (userID) => {
+        return new Promise(async(resolve,reject) => {
+           // console.log(userID);
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(userID)})
+            //console.log("users :",user);
+            resolve(user)
         })
     }
 }
