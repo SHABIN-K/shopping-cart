@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var collection=require('../Config/collections')
+
 var productHelper = require('../helpers/product-helpers')
 var userHelper = require('../helpers/user-helpers')
 var cartHelper = require('../helpers/cart-helpers')
 var placeOrderHelper = require('../helpers/place-order')
 var userOrderHelper = require('../helpers/order-helpers')
+var paymentHelper = require('../helpers/payment-helper')
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -119,7 +122,7 @@ router.get("/place-order",verifyLogin, async(req, res) => {
   let userID =req.session.user._id
   let user = req.session.user
   let total= await placeOrderHelper.getTotalAmount(userID)
-  res.render('user/place-order',{total,user})
+  res.render('user/place-order',{total,user,keyId: collection.YOUR_KEY_ID})
 });
 
 router.post("/place-order", async(req, res) => {
@@ -127,8 +130,14 @@ router.post("/place-order", async(req, res) => {
   let products = await placeOrderHelper.getCartProductList(userID)
   let totalAmount = await placeOrderHelper.getTotalAmount(userID)
 
-  placeOrderHelper.placeOrder(req.body,products,totalAmount).then((response) => {
-    res.json({status:true})
+  placeOrderHelper.placeOrder(req.body,products,totalAmount).then((orderID) => {
+    if(req.body['payment-method'] === 'COD'){
+      res.json({status:true})
+    }else {
+      paymentHelper.generateRazorpay(orderID,totalAmount).then((response)=> {
+        res.json(response)
+      })
+    }
   })  
 });
 
@@ -141,7 +150,7 @@ router.get("/orders",verifyLogin, async(req, res) => {
   let user = req.session.user
   let userID =req.session.user._id
   let orders = await userOrderHelper.getUserOrders(userID)
-  console.log(orders);
+  //console.log(orders);
   res.render('user/orders-view',{user,orders})
 });
 
