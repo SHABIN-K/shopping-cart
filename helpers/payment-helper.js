@@ -13,7 +13,7 @@ module.exports = {
     generateRazorpay : (orderID,totalAmount) => {
         return new Promise((resolve,reject) => {
             var orderData = {
-                amount: totalAmount,
+                amount: totalAmount*100,
                 currency: "INR",
                 receipt: ""+orderID,
               }
@@ -51,7 +51,7 @@ module.exports = {
             await db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderID)},
             {
                 $set : {
-                    status: 'paid'
+                    status: 'placed'
                 }
             }).then(()=>{
                 resolve()
