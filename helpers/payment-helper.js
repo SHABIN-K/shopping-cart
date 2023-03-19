@@ -1,6 +1,8 @@
-const Razorpay = require('razorpay');
+var db=require('../Config/connection')
 var collection=require('../Config/collections')
 var objectId=require('mongodb').ObjectID
+
+const Razorpay = require('razorpay');
 
 var instance = new Razorpay({
     key_id: collection.YOUR_KEY_ID,

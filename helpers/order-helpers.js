@@ -11,7 +11,7 @@ module.exports = {
         })
     },
     getOrderProducts : (orderID) => {
-        console.log(orderID);
+        //console.log(orderID);
         return new Promise(async(resolve,reject) => {
             let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
@@ -42,7 +42,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            console.log(orderItems);
+           // console.log(orderItems);
             resolve(orderItems)
         })
     }
