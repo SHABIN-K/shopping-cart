@@ -22,7 +22,7 @@ module.exports = {
                    // console.log(err);
                     reject();
                 }else{
-                console.log("New order",order);
+                //console.log("New order",order);
                 resolve(order)
                 }
             })
