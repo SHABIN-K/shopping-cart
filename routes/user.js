@@ -130,7 +130,7 @@ router.post("/place-order", async(req, res) => {
   let userID = req.body.userId    
   let products = await placeOrderHelper.getCartProductList(userID)
   let totalAmount = await placeOrderHelper.getTotalAmount(userID)
-
+  console.log("api call place order");
   placeOrderHelper.placeOrder(req.body,products,totalAmount).then((orderID) => {
     if(req.body['payment-method'] === 'COD'){
       res.json({codSuccess:true})
@@ -162,7 +162,15 @@ router.get("/view-order-product/:id",verifyLogin, async(req, res) => {
 });
 
 router.post("/verify-payment", (req, res) => {
-  console.log(req.body);
+  paymentHelper.verifyPayment(req.body).then(() =>{
+    paymentHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      console.log("payment successfull");
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log(err);
+    res.json({status:false,err})
+  })
 });
 
 module.exports = router;

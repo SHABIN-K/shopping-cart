@@ -53,7 +53,7 @@ module.exports = {
     },
     placeOrder : (orderDetails,products,totalAmount) => {
         return new Promise((resolve,reject) => {
-           //console.log("order : " + JSON.stringify(orderDetails) +"\n products :"+ JSON.stringify(products) + "\n Amount :"+ JSON.stringify(totalAmount));
+           console.log("order : " + JSON.stringify(orderDetails) +"\n products :"+ JSON.stringify(products) + "\n Amount :"+ JSON.stringify(totalAmount));
            let status = orderDetails['payment-method'] === 'COD'?'placed':'pending'
 
            let orderObj ={

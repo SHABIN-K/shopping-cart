@@ -68,9 +68,9 @@
           "image": "https://example.com/your_logo",
           "order_id": order.id,
           "handler": function (response){
-              alert(response.razorpay_payment_id);
-              alert(response.razorpay_order_id);
-              alert(response.razorpay_signature);
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            // alert(response.razorpay_signature);
 
               verifyPayment(response,order)
           },
@@ -95,7 +95,13 @@
             url:'/verify-payment',
             data: {payment,order},
             method:'post',
-            success : (response) = {}
+            success : (response) => {
+                if(response.status){
+                    location.href = '/order-success';
+                }else{
+                    alert("payment failed")
+                }
+            }
         })
     }
 </script>
