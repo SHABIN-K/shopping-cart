@@ -46,7 +46,7 @@ router.post('/signup',(req, res)=>{
       req.session.userLoggedIn = true
       res.redirect('/')
   }).catch((err) => {
-    console.log(err)
+    //console.log(err)
     res.redirect('/signup')
   })
 })
@@ -167,11 +167,11 @@ router.get("/view-order-product/:id",verifyLogin, async(req, res) => {
 router.post("/verify-payment", (req, res) => {
   paymentHelper.verifyPayment(req.body).then(() =>{
     paymentHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-      console.log("payment successfull");
+      //console.log("payment successfull");
       res.json({status:true})
     })
   }).catch((err)=>{
-    console.log(err);
+   // console.log(err);
     res.json({status:false,err})
   })
 });
