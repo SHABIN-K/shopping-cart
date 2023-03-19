@@ -3,13 +3,52 @@ var router = express.Router();
 var fs = require('fs')
 
 var productHelper = require('../helpers/product-helpers')
+var adminHelper = require('../helpers/admin-helper')
+
+const verifyAdminLogin = (req, res, next) => {
+  console.log(req.session.admin.LoggedIn);
+  if (req.session.admin.LoggedIn) {
+    console.log(req.session.admin.LoggedIn);
+    next();
+  } else {
+    console.log("user not login in");
+    res.redirect('admin/adminlogin');
+  }
+}
+
+/* GET Login page. */
+router.get('/adminlogin', (req,res) => {
+  if(req.session.admin){
+    res.redirect('/admin/')
+  }else{
+    console.log("admn login faildeee");
+    res.render('admin/login',{admin : true ,"loginError": req.session.adminloginError})
+    req.session.adminloginError=false
+  }
+});
+
+router.post('/adminlogin', (req,res)=>{
+  console.log(req.body);
+  adminHelper.AdminLogin(req.body).then((response)=>{
+    if(response.status){
+      console.log(response.status);
+      req.session.admin=response.admin
+      req.session.admin.LoggedIn=true
+      res.redirect('/admin/')
+    }else{
+      req.session.adminloginError="invalid email or password"
+      res.redirect('admin/adminlogin')
+    }
+  })
+})
 
 /* GET Admin listing. */
 
-router.get('/', function(req, res, next) {
+router.get('/',verifyAdminLogin, function(req, res, next) {
+  let admin = req.session.admin
   productHelper.getAllProducts().then((products) =>{
    // console.log(products)
-    res.render('admin/view-products', {products,admin :true})
+    res.render('admin/view-products', {products,admin,admin :true})
   })
 });
 
