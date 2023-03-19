@@ -19,10 +19,10 @@ module.exports = {
               }
             instance.orders.create(orderData, (err, order) => {
                 if(err){
-                    console.log(err);
+                   // console.log(err);
                     reject();
                 }else{
-               // console.log("New order",order);
+                console.log("New order",order);
                 resolve(order)
                 }
             })
@@ -36,8 +36,8 @@ module.exports = {
             hmac.update(orderDetails['payment[razorpay_order_id]']+'|'+orderDetails['payment[razorpay_payment_id]']);
             generated_signature = hmac.digest('hex');
 
-            console.log(hmac.digest('hex'));
-            console.log(orderDetails['payment[razorpay_signature]']);
+           //console.log("generated sign",generated_signature);
+           //console.log("sign",orderDetails['payment[razorpay_signature]']);
 
             if (generated_signature == orderDetails['payment[razorpay_signature]']) {
                resolve()
@@ -62,16 +62,6 @@ module.exports = {
     }
 }
 
-
-// 'payment[razorpay_payment_id]': 'pay_LT4id2DVckeCVA',
-// 'payment[razorpay_order_id]': 'order_LT4fKiGz9hGrqM',
-// 'payment[razorpay_signature]': '0ee9bff2e7d7575b390e288b571a19d7dbc01169b04f80c96cdb9fd1dece09f5',
-// 'order[id]': 'order_LT4fKiGz9hGrqM',
-// 'order[entity]': 'order',
-// 'order[amount]': '28000',
-
-//
-//[Object: null prototype] {
 //    'payment[razorpay_payment_id]': 'pay_LTGMoX6SgvbOdl',
 //    'payment[razorpay_order_id]': 'order_LTGMFvEN8Fm2qh',
 //    'payment[razorpay_signature]': '0d92cbad08e6ceb67ceddc22774a9ef64d82dcfc5c089bb09335f6e3fa3ecece',
@@ -86,4 +76,3 @@ module.exports = {
 //    'order[status]': 'created',
 //    'order[attempts]': '0',
 //    'order[created_at]': '1679202690'
-//  }
