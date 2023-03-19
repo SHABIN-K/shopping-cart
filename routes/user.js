@@ -9,7 +9,7 @@ var userOrderHelper = require('../helpers/order-helpers')
 var paymentHelper = require('../helpers/payment-helper')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.userLoggedIn) {
+  if (req.session.user.LoggedIn) {
     //console.log(req.session.userLoggedIn);
     next();
   } else {
@@ -33,7 +33,7 @@ router.get('/', async function(req, res, next) {
 
 /* GET signup page. */
 router.get('/signup',(req, res) => {
-  if(req.session.userLoggedIn){
+  if(req.session.user.LoggedIn){
     res.redirect('/')
   }else{
     res.render('user/signup')
@@ -43,7 +43,7 @@ router.get('/signup',(req, res) => {
 router.post('/signup',(req, res)=>{
   userHelper.doSignup(req.body).then((response)=>{
       req.session.user = response
-      req.session.userLoggedIn = true
+      req.session.user.LoggedIn = true
       res.redirect('/')
   }).catch((err) => {
     //console.log(err)
@@ -54,29 +54,29 @@ router.post('/signup',(req, res)=>{
 
 /* GET Login page. */
 router.get('/login', (req,res) => {
-  if(req.session.userLoggedIn){
+  if(req.session.user.LoggedIn){
     res.redirect('/')
   }else{
-    res.render('user/login',{"loginError": req.session.loginError})
-    req.session.loginError=false
+    res.render('user/login',{"loginError": req.session.user.loginError})
+    req.session.user.loginError=false
   }
 });
 
 router.post('/login', (req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
-      req.session.userLoggedIn=true
       req.session.user=response.user
+      req.session.user.LoggedIn=true
       res.redirect('/')
     }else{
-      req.session.loginError="invalid email or password"
+      req.session.user.loginError="invalid email or password"
       res.redirect('/login')
     }
   })
 })
 
 router.get('/logout', (req,res) => {
-  req.session.destroy()
+  req.session.user=null
   res.redirect('/')
 });
 
