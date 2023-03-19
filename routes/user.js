@@ -54,11 +54,11 @@ router.post('/signup',(req, res)=>{
 
 /* GET Login page. */
 router.get('/login', (req,res) => {
-  if(req.session.user.LoggedIn){
+  if(req.session.user){
     res.redirect('/')
   }else{
-    res.render('user/login',{"loginError": req.session.user.loginError})
-    req.session.user.loginError=false
+    res.render('user/login',{"loginError": req.session.userloginError})
+    req.session.userloginError=false
   }
 });
 
@@ -69,7 +69,7 @@ router.post('/login', (req,res)=>{
       req.session.user.LoggedIn=true
       res.redirect('/')
     }else{
-      req.session.user.loginError="invalid email or password"
+      req.session.userloginError="invalid email or password"
       res.redirect('/login')
     }
   })
