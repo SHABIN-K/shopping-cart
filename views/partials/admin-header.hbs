@@ -19,17 +19,17 @@
                </ul>
                <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                   {{#if admin}}
-                       {{admin.fname}}
+                   {{#if adminName}}
+                       {{adminName.fname}}
                     {{else}}
                        Account
                    {{/if}}
                   </button>
                   <ul class="dropdown-menu">
-                   {{#if admin}}
-                       <li><a class="dropdown-item" href="/logout">Log out</a></li>
-                    {{else}}
-                       <li><a class="dropdown-item" href="/login">Login</a></li>
+                   {{#if adminName}}  
+                       <li><a class="dropdown-item" href="/admin/logout">Log out</a></li>  
+                       {{else}}
+                       <li><a class="dropdown-item" href="/">Home</a></li>
                    {{/if}}                    
                   </ul>
                 </div>               

@@ -7,11 +7,11 @@ var adminHelper = require('../helpers/admin-helper')
 
 const verifyAdminLogin = (req, res, next) => {
   if (req.session.adminLoggedIn) {
-    console.log(req.session.adminLoggedIn);
+   // console.log("admin already exits");
     next();
   } else {
-    console.log("user not login in");
-    res.redirect('/admin/login');
+    //console.log("user not login inn");
+    res.redirect('admin/login');
   }
 }
 
@@ -20,17 +20,14 @@ router.get('/login', (req,res) => {
   if(req.session.admin){
     res.redirect('/admin/')
   }else{
-    console.log("admn login faildeee");
     res.render('admin/login',{admin : true ,"loginError": req.session.adminloginError})
     req.session.adminloginError=false
   }
 });
 
 router.post('/login', (req,res)=>{
-  console.log(req.body);
   adminHelper.adminLogin(req.body).then((response)=>{
     if(response.status){
-      console.log(response.status);
       req.session.admin=response.admin
       req.session.adminLoggedIn=true
       res.redirect('/admin/')
@@ -42,24 +39,25 @@ router.post('/login', (req,res)=>{
 })
 
 router.get('/logout', (req,res) => {
+  console.log("api calll logout");
   req.session.admin=null
   req.session.adminLoggedIn=false
-  res.redirect('/')
+  res.redirect('/admin')
 });
 
 
 /* GET Admin listing. */
 
-router.get('/', function(req, res, next) {
-  let admin = req.session.admin
+router.get('/',verifyAdminLogin, function(req, res, next) {
+  let adminName = req.session.admin
   productHelper.getAllProducts().then((products) =>{
    // console.log(products)
-    res.render('admin/view-products', {products,admin,admin :true})
+    res.render('admin/view-products', {products,adminName,admin :true})
   })
 });
 
 
-router.get('/add-products', function(req,res){
+router.get('/add-products',verifyAdminLogin, function(req,res){
   res.render('admin/add-products', {admin :true})
 });
 router.post('/add-products', function(req,res){
