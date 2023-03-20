@@ -39,7 +39,7 @@ router.post('/login', (req,res)=>{
 })
 
 router.get('/logout', (req,res) => {
-  console.log("api calll logout");
+ // console.log("api calll logout");
   req.session.admin=null
   req.session.adminLoggedIn=false
   res.redirect('/admin')
