@@ -8,29 +8,6 @@ var placeOrderHelper = require('../helpers/place-order')
 var userOrderHelper = require('../helpers/order-helpers')
 var paymentHelper = require('../helpers/payment-helper')
 
-const verifyLogin = (req, res, next) => {
-  if (req.session.userLoggedIn) {
-    //console.log(req.session.userLoggedIn);
-    next();
-  } else {
-   // console.log("user not login in");
-    res.redirect('/login');
-  }
-}
-
-/* GET home page. */
-router.get('/', async function(req, res, next) {
-  let user = req.session.user
-  let cartCount=null
-  if(user){
-    cartCount=await cartHelper.getCartCount(user._id)
-  }
-  productHelper.getAllProducts().then((products) =>{
-    // console.log(products);
-     res.render('user/view-products', { products, user, cartCount})
-   })
-});
-
 /* GET signup page. */
 router.get('/signup',(req, res) => {
   if(req.session.userLoggedIn){
@@ -82,6 +59,29 @@ router.get('/logout', (req,res) => {
 });
 
 
+const verifyLogin = (req, res, next) => {
+  if (req.session.userLoggedIn) {
+    //console.log(req.session.userLoggedIn);
+    next();
+  } else {
+   // console.log("user not login in");
+    res.redirect('/login');
+  }
+}
+
+
+/* GET home page. */
+router.get('/', async function(req, res, next) {
+  let user = req.session.user
+  let cartCount=null
+  if(user){
+    cartCount=await cartHelper.getCartCount(user._id)
+  }
+  productHelper.getAllProducts().then((products) =>{
+    // console.log(products);
+     res.render('user/view-products', { products, user, cartCount})
+   })
+});
 
 /* GET Cart page. */
 router.get('/cart',verifyLogin, async (req,res) => {
