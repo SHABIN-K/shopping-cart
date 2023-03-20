@@ -9,7 +9,7 @@ var userOrderHelper = require('../helpers/order-helpers')
 var paymentHelper = require('../helpers/payment-helper')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.user.LoggedIn) {
+  if (req.session.userLoggedIn) {
     //console.log(req.session.userLoggedIn);
     next();
   } else {
@@ -33,7 +33,7 @@ router.get('/', async function(req, res, next) {
 
 /* GET signup page. */
 router.get('/signup',(req, res) => {
-  if(req.session.user.LoggedIn){
+  if(req.session.userLoggedIn){
     res.redirect('/')
   }else{
     res.render('user/signup')
@@ -43,7 +43,7 @@ router.get('/signup',(req, res) => {
 router.post('/signup',(req, res)=>{
   userHelper.doSignup(req.body).then((response)=>{
       req.session.user = response
-      req.session.user.LoggedIn = true
+      req.session.userLoggedIn = true
       res.redirect('/')
   }).catch((err) => {
     //console.log(err)
@@ -66,7 +66,7 @@ router.post('/login', (req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
       req.session.user=response.user
-      req.session.user.LoggedIn=true
+      req.session.userLoggedIn=true
       res.redirect('/')
     }else{
       req.session.userloginError="invalid email or password"
@@ -77,6 +77,7 @@ router.post('/login', (req,res)=>{
 
 router.get('/logout', (req,res) => {
   req.session.user=null
+  req.session.userLoggedIn=false
   res.redirect('/')
 });
 

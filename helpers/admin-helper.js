@@ -4,7 +4,7 @@ var collection= require('../Config/collections')
 const bcrypt = require('bcrypt')
 
 module.exports = {
-    AdminLogin: (adminData) => {
+    adminLogin: (adminData) => {
         console.log(adminData);
         return new Promise(async (resolve, reject) => {
             let response = {}            
