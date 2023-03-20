@@ -53,6 +53,7 @@
                      location.href = '/order-success';
                  }else{
                     razorPayment(response)
+                    
                  }
             }  
         })
@@ -67,12 +68,12 @@
           "description": "Test Transaction",
           "image": "https://example.com/your_logo",
           "order_id": order.id,
-          "handler": function (response){
+          "handler": function (payment){
             // alert(response.razorpay_payment_id);
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature);
 
-              verifyPayment(response,order)
+              verifyPayment(payment,order,{userDetails._id})
           },
           "prefill": {
               "name": "{{userDetails.fname}}", //your customer's name
@@ -93,7 +94,7 @@
     function verifyPayment(payment,order){
         $.ajax({
             url:'/verify-payment',
-            data: {payment,order},
+            data: {payment,order,userID},
             method:'post',
             success : (response) => {
                 if(response.status){

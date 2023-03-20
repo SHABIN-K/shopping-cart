@@ -46,7 +46,8 @@ module.exports = {
             }
         })
     },
-    changePaymentStatus : (orderID) => {
+    changePaymentStatus : (orderID,userId) => {
+        console.log("user idd",userId);;
         return new Promise(async(resolve,reject) => {
             await db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderID)},
             {
@@ -54,6 +55,7 @@ module.exports = {
                     status: 'placed'
                 }
             }).then(()=>{
+             //  await db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(userId)})
                 resolve()
             }).catch((err)=>{
                 reject()

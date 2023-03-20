@@ -97,12 +97,17 @@ router.get('/cart',verifyLogin, async (req,res) => {
 });
 
 router.get('/add-to-cart/:id',(req,res) => {
+
+ // console.log("api call");
+
   let proID = req.params.id
   let userID =req.session.user._id
+
   cartHelper.addToCart(proID,userID).then(() => {
     res.json({status:true})
     //res.redirect('/cart')
   })
+
 });
 
 router.post('/change-product-quantity',async (req,res) =>{
@@ -131,7 +136,7 @@ router.get("/place-order",verifyLogin, async(req, res) => {
 });
 
 router.post("/place-order", async(req, res) => {
-  let userID = req.body.userId    
+  let userID = req.body.userId  
   let products = await placeOrderHelper.getCartProductList(userID)
   let totalAmount = await placeOrderHelper.getTotalAmount(userID)
  // console.log("api call place order");
@@ -140,6 +145,7 @@ router.post("/place-order", async(req, res) => {
       res.json({codSuccess:true})
     }else {
       paymentHelper.generateRazorpay(orderID,totalAmount).then((response)=> {
+       // console.log(response)
         res.json(response)
       })
     }
@@ -166,14 +172,16 @@ router.get("/view-order-product/:id",verifyLogin, async(req, res) => {
 });
 
 router.post("/verify-payment", (req, res) => {
+  let userID = req.body.userID
+  console.log("user ID :", userID);
   paymentHelper.verifyPayment(req.body).then(() =>{
-    paymentHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+    paymentHelper.changePaymentStatus(req.body['order[receipt]'],userID).then(()=>{
       //console.log("payment successfull");
       res.json({status:true})
     })
   }).catch((err)=>{
-   // console.log(err);
-    res.json({status:false,err})
+    console.log(err);
+    res.json({status:false})
   })
 });
 
