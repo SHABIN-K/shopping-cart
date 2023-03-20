@@ -73,7 +73,7 @@
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature);
 
-              verifyPayment(payment,order,{userDetails._id})
+              verifyPayment(payment,order,user._id)
           },
           "prefill": {
               "name": "{{userDetails.fname}}", //your customer's name
