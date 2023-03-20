@@ -14,7 +14,7 @@ This is the course project for [Web Development challenge](https://youtube.com/p
 - Admin Order details page
 - Mark orders as delivered option
 - Checkout process (shipping, payment method, etc)
-- Payment integration [RazorPay](https://rzp.io/i/eYH3SKEW)
+- Payment integration( [RazorPay](https://rzp.io/i/eYH3SKEW) )
 
 
 
