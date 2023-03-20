@@ -35,7 +35,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret:"key",cookie:{maxAge:600000}}));
+let sessionTime = new Date(Date.now() + (30 * 86400 * 1000))
+app.use(session({secret:'key',resave:true, saveUninitialized:true, cookie:{maxAge:sessionTime}}))
+
 app.use(nocache());
 app.use(fileUpload());
 
