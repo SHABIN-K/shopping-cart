@@ -138,9 +138,10 @@ router.get("/orders",verifyAdminLogin, async(req, res) => {
 
 router.get("/update-order/:id",async(req, res) => {
   let adminName = req.session.admin
-  let orders = await adminHelper.getAllOrders()
+  let orderId = req.params.id
+  let order = await adminHelper.getOrderDetails(orderId)
   //console.log(orders);
-  res.render('admin/order-update',{adminName,orders,admin : true})
+  res.render('admin/update-order',{adminName,order,admin : true})
 });
 
 module.exports = router;

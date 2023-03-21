@@ -1,0 +1,55 @@
+<section>
+    <div class="container mt-5">
+        <div class="col-md-12 text-center">
+            <div class="shadow-lg p-5">
+                <h3>Address: {{order.deliveryDetails.address}}</h3>
+                <h3>Pincode: {{order.deliveryDetails.pincode}}</h3>
+                <h3>Mobile number: {{order.deliveryDetails.mobile}}</h3>
+            </div>
+            <div class="mt-5">
+
+                <h2>Status: Order <span id="status">{{order.status}}</span></h2>
+
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Update Status
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button onclick="updateStatus('placed','{{order._id}}')" class="dropdown-item bg-secondary" >Placed</button>
+                        <button onclick="updateStatus('shipped','{{order._id}}')" class="dropdown-item bg-success" >Shipped</button>
+                        <button onclick="updateStatus('delivered','{{order._id}}')" class="dropdown-item bg-info" >Delivered</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+  return new bootstrap.Dropdown(dropdownToggleEl, {
+    popper: new Popper(dropdownToggleEl, {
+      placement: 'bottom-start'
+    })
+  })
+})
+    function updateStatus(newStatus, orderId){
+        $.ajax({
+            url:`/admin/updateOrderStatus/`,
+            method:'post',
+            data:{
+                orderId:orderId,
+                newStatus:newStatus
+            },
+            success:(response)=>{
+                if(response.status){
+                    $('#status').html(newStatus)
+                    
+                }
+            }
+        })
+    }
+</script>

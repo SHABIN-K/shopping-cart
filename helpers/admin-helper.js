@@ -1,7 +1,9 @@
 var db= require('../Config/connection')
 var collection= require('../Config/collections')
+var objectId=require('mongodb').ObjectID
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+
 
 module.exports = {
     adminLogin: (adminData) => {
@@ -31,6 +33,12 @@ module.exports = {
         return new Promise(async(resolve ,reject) => {
             let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
             resolve(orders)
+        })
+    },
+    getOrderDetails : (orderID) =>{
+        return new Promise((resolve,reject) =>{
+            let orderDetails = db.get().collection(collection.ORDER_COLLECTION).findOne({_id : objectId(orderID)})
+            resolve(orderDetails)
         })
     }
 }
