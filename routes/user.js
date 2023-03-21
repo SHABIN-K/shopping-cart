@@ -172,7 +172,7 @@ router.get("/view-order-product/:id",verifyLogin, async(req, res) => {
 });
 
 router.post("/verify-payment", (req, res) => {
-  let userID = req.body.userID
+  let userID = req.body
   console.log("user ID :", userID);
   paymentHelper.verifyPayment(req.body).then(() =>{
     paymentHelper.changePaymentStatus(req.body['order[receipt]'],userID).then(()=>{

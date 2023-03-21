@@ -41,6 +41,8 @@
 </section> 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    var userID = "{{user._id}}"
+        console.log(userID)
     $("#checkout-form").submit((e) => {
         e.preventDefault()
         $.ajax({
@@ -73,7 +75,7 @@
             // alert(response.razorpay_order_id);
             // alert(response.razorpay_signature);
 
-              verifyPayment(payment,order,user._id)
+              verifyPayment(payment,order)
           },
           "prefill": {
               "name": "{{userDetails.fname}}", //your customer's name
@@ -94,7 +96,7 @@
     function verifyPayment(payment,order){
         $.ajax({
             url:'/verify-payment',
-            data: {payment,order,userID},
+            data: {payment,order},
             method:'post',
             success : (response) => {
                 if(response.status){
