@@ -2,7 +2,8 @@
 
 > eCommerce platform built with the Node.js.
 This is the course project for [Web Development challenge](https://youtube.com/playlist?list=PLY-ecO2csVHd8R8sg-4vhN2BzZQLxIZO9) course
-##used stack
+
+##used stacks
 - node.js
 - express.js
 - mongodb
