@@ -45,5 +45,11 @@ module.exports = {
            // console.log(orderItems);
             resolve(orderItems)
         })
+    },
+    deleteOrderCart : (userID) => {
+        return new Promise(async(resolve,reject) => {
+            db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(userID)})
+            resolve()
+        })
     }
 }

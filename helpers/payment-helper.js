@@ -46,8 +46,7 @@ module.exports = {
             }
         })
     },
-    changePaymentStatus : (orderID,userId) => {
-        console.log("user idd",userId);;
+    changePaymentStatus : (orderID) => {
         return new Promise(async(resolve,reject) => {
             await db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderID)},
             {

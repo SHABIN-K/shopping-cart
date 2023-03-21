@@ -69,11 +69,12 @@ module.exports = {
             paymentMethod:orderDetails['payment-method'],
             status:orderStatus
            }
-
-           db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-            db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(orderDetails.userId)})
-            resolve(response.ops[0]._id)
-           })
+         
+               db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
+                 // db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(orderDetails.userId)})
+                 resolve(response.ops[0]._id)
+               })
+            
         })
     },
     getCartProductList : (userID) => {
