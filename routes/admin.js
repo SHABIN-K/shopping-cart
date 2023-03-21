@@ -4,6 +4,7 @@ var fs = require('fs')
 
 var productHelper = require('../helpers/product-helpers')
 var adminHelper = require('../helpers/admin-helper')
+var userOrderHelper = require('../helpers/order-helpers')
 
 const verifyAdminLogin = (req, res, next) => {
   if (req.session.adminLoggedIn) {
@@ -11,7 +12,7 @@ const verifyAdminLogin = (req, res, next) => {
     next();
   } else {
     //console.log("user not login inn");
-    res.redirect('admin/login');
+    res.redirect('/admin/login');
   }
 }
 
@@ -58,8 +59,10 @@ router.get('/',verifyAdminLogin, function(req, res, next) {
 
 
 router.get('/add-products',verifyAdminLogin, function(req,res){
-  res.render('admin/add-products', {admin :true})
+  let adminName = req.session.admin
+  res.render('admin/add-products', {admin :true,adminName})
 });
+
 router.post('/add-products', function(req,res){
   //console.log(req.body);
   //console.log(req.files.image);
@@ -96,10 +99,11 @@ router.get('/delete-products/:id', function(req,res){
 
 
 router.get('/edit-product/:id', async function(req,res){
+  let adminName = req.session.admin
   let proId = req.params.id
   let editProduct = await productHelper.getProductDetails(proId)
  //console.log(editProduct); 
-  res.render('admin/edit-product', {admin :true,editProduct})
+  res.render('admin/edit-product', {admin :true,editProduct,adminName})
 });
 
 
@@ -124,5 +128,19 @@ router.post('/edit-product/:id', (req,res)=>{
     }
   })
 })
+
+router.get("/orders",verifyAdminLogin, async(req, res) => {
+  let adminName = req.session.admin
+  let orders = await adminHelper.getAllOrders()
+  //console.log(orders);
+  res.render('admin/order-view-admin',{adminName,orders,admin : true})
+});
+
+router.get("/update-order/:id",async(req, res) => {
+  let adminName = req.session.admin
+  let orders = await adminHelper.getAllOrders()
+  //console.log(orders);
+  res.render('admin/order-update',{adminName,orders,admin : true})
+});
 
 module.exports = router;
